@@ -12,6 +12,7 @@ import axios from "axios";
 import { useState } from "react";
 
 import { server } from "../constants/config";
+import { Helmet } from "react-helmet-async";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,6 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make API call to backend
       const res = await axios.post(`${server}/api/v1/admin/contact`, formData);
 
       if (res.data.success) {
@@ -46,6 +46,17 @@ const Contact = () => {
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8, mb: 8 }}>
+      <Helmet>
+        <title>Contact Us | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Get in touch with Craeswel Foundation. Have questions or want to collaborate? Send us a message and we'll get back to you soon."
+        />
+        <meta
+          name="keywords"
+          content="Craeswel Foundation, Contact, NGO, Collaboration, Support"
+        />
+      </Helmet>
       <Paper elevation={6} sx={{ p: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Contact Us

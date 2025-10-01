@@ -9,18 +9,13 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Loader from "./components/Loader";
-import ProtectedRoute from "./components/ProtectedRoute";
 import { server } from "./constants/config";
 import { adminExists, adminNotExists } from "./redux/reducers/auth";
-import DonationSuccess from "./pages/DonationSuccess";
-import DonationFailure from "./pages/DonationFailure";
-import MembershipSuccess from "./pages/MembershipSuccess";
-import LatestEvents from "./pages/LatestEvents";
-import OurWork from "./pages/OurWork";
-import Contact from "./pages/Contact";
+
+const Footer = lazy(() => import("./components/Footer"));
+const Header = lazy(() => import("./components/Header"));
+const Loader = lazy(() => import("./components/Loader"));
+const ProtectedRoute = lazy(() => import("./components/ProtectedRoute"));
 
 // Public pages
 const Home = lazy(() => import("./pages/Home"));
@@ -28,6 +23,12 @@ const Gallery = lazy(() => import("./pages/Gallery"));
 const Membership = lazy(() => import("./pages/Membership"));
 const DonateNow = lazy(() => import("./pages/Donate"));
 const Login = lazy(() => import("./pages/Login"));
+const DonationSuccess = lazy(() => import("./pages/DonationSuccess"));
+const DonationFailure = lazy(() => import("./pages/DonationFailure"));
+const MembershipSuccess = lazy(() => import("./pages/MembershipSuccess"));
+const LatestEvents = lazy(() => import("./pages/LatestEvents"));
+const OurWork = lazy(() => import("./pages/OurWork"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 // Admin pages
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));

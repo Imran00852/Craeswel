@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 
 const workData = [
   {
@@ -43,6 +44,13 @@ const OurWork = () => {
         px: { xs: 2, sm: 4, md: 8 },
       }}
     >
+      <Helmet>
+        <title>Our Work | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Explore the work of Craeswel Foundation in education, skill development, animal welfare, and holistic community growth. Learn how we empower people and animals together."
+        />
+      </Helmet>
       {/* Heading */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}

@@ -1,19 +1,20 @@
-import React, { useState } from "react";
 import {
+  Backdrop,
   Box,
+  Button,
+  CircularProgress,
+  Paper,
   TextField,
   Typography,
-  Button,
-  Paper,
-  Backdrop,
-  CircularProgress,
 } from "@mui/material";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   useCreateMemberOrderMutation,
   useVerifyMemberPaymentMutation,
 } from "../redux/api/api";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Membership = () => {
   const [formData, setFormData] = useState({
@@ -140,6 +141,14 @@ const Membership = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Membership Registration | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Join Craeswel Foundation as a member and help us improve the lives of dogs and cats. Complete your membership registration and support animal welfare."
+        />
+      </Helmet>
+
       {/* Loader */}
       <Backdrop
         open={loading}

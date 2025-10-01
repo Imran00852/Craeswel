@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import { useAllGalleryPhotosQuery } from "../redux/api/api";
+import { Helmet } from "react-helmet-async";
 
 const Gallery = () => {
   const { data, isLoading } = useAllGalleryPhotosQuery();
@@ -26,6 +27,14 @@ const Gallery = () => {
 
   return (
     <Box sx={{ bgcolor: "#f9fafb", p: 4, minHeight: "100vh" }}>
+      <Helmet>
+        <title>Gallery | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Browse the photo gallery of Craeswel Foundation, showcasing our events, activities, and the impact we create in education, skill development, and animal welfare."
+        />
+      </Helmet>
+
       <Typography
         variant="h4"
         color="#1A365D"

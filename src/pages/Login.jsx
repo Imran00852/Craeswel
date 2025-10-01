@@ -6,6 +6,7 @@ import { server } from "../constants/config";
 import { useDispatch } from "react-redux";
 import { adminExists, adminNotExists } from "../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -44,6 +45,15 @@ const Login = () => {
         px: 2,
       }}
     >
+      <Helmet>
+        <title>Admin Login | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Login to the Craeswel Foundation admin panel to manage donations, events, and website content."
+        />
+        <meta name="robots" content="noindex, nofollow" />
+        {/* 👆 Prevents search engines from indexing login page */}
+      </Helmet>
       <Paper
         elevation={4}
         sx={{

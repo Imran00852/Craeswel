@@ -19,6 +19,7 @@ import { useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useAllEventsQuery } from "../redux/api/api";
+import { Helmet } from "react-helmet-async";
 
 const LatestEvents = () => {
   const { data, isLoading } = useAllEventsQuery();
@@ -49,6 +50,14 @@ const LatestEvents = () => {
   return (
     <Box>
       {/* Hero Section */}
+      <Helmet>
+        <title>Latest Events | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Stay updated with the latest events organized by Craeswel Foundation. Explore our workshops, initiatives, community activities, and more."
+        />
+      </Helmet>
+
       <Box
         sx={{
           position: "relative",

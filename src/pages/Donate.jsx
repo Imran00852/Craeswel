@@ -15,6 +15,7 @@ import {
 } from "../redux/api/api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const DonateNow = () => {
   const [fullName, setFullName] = useState("");
@@ -96,6 +97,32 @@ const DonateNow = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Donate Now | Craeswel Foundation</title>
+        <meta
+          name="description"
+          content="Support Craeswel Foundation by donating online. Your contributions help us rescue, feed, and provide shelter to dogs and cats in need."
+        />
+        <meta
+          name="keywords"
+          content="donate, animal welfare, dog shelter, cat shelter, Craeswel Foundation, NGO donations, help animals, charity"
+        />
+        <meta property="og:title" content="Donate Now - Craeswel Foundation" />
+        <meta
+          property="og:description"
+          content="Make a donation to support Craeswel Foundation’s mission of helping dogs and cats in need."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://craeswelfoundation.org/donate"
+        />
+        <meta
+          property="og:image"
+          content="https://craeswelfoundation.org/donation-banner.jpg"
+        />
+      </Helmet>
+
       {/* Loader */}
       <Backdrop
         open={loading}
