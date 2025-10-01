@@ -1,3 +1,4 @@
+// Header.js
 import {
   AppBar,
   Toolbar,
@@ -7,173 +8,221 @@ import {
   Container,
   Stack,
   useMediaQuery,
-  useTheme,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import PetsIcon from "@mui/icons-material/Pets";
-import SchoolIcon from "@mui/icons-material/School";
 import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Header = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "lg"));
+  const isTabletOrBelow = useMediaQuery("(max-width:944px)");
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const navItems = [
+    { to: "/our-work", text: "Our Work" },
+    { to: "/gallery", text: "Gallery" },
+    { to: "/events", text: "Events" },
+    { to: "/membership", text: "Membership" },
+    { to: "/contact", text: "Contact" },
+    { to: "/login", text: "Login" },
+  ];
 
   return (
-    <AppBar
-      position="sticky"
-      sx={{
-        backgroundColor: "#1A365D",
-        color: "white",
-        boxShadow: "none",
-        py: 1,
-        width: "100%",
-        left: 0,
-      }}
-    >
-      <Container
-        maxWidth="lg"
+    <>
+      <AppBar
+        position="sticky"
         sx={{
-          paddingLeft: { xs: "12px", sm: "16px", md: "24px" },
-          paddingRight: { xs: "12px", sm: "16px", md: "24px" },
+          backgroundColor: "#1A365D",
+          color: "white",
+          boxShadow: "none",
+          py: 1,
+          width: "100%",
+          left: 0,
         }}
       >
-        <Toolbar
-          sx={{
-            px: "0 !important",
-            minHeight: "64px !important",
-          }}
-          disableGutters
-        >
-          {/* Logo Section */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                "& svg:first-of-type": { color: "#E67E22" },
-                "& svg:last-of-type": { color: "#27AE60", ml: "-8px" },
-              }}
-            >
-              <PetsIcon fontSize={isTablet ? "medium" : "large"} />
-              <SchoolIcon fontSize={isTablet ? "medium" : "large"} />
-            </Box>
-            <Typography
-              component={Link}
-              to="/"
-              variant="h6"
-              sx={{
-                ml: 1,
-                fontWeight: "bold",
-                fontSize: {
-                  xs: "1.1rem",
-                  sm: "1.25rem",
-                  md: "1.5rem",
-                },
-                textDecoration: "none",
-                color: "white",
-              }}
-            >
-              CRAESWEL
-            </Typography>
-          </Box>
-
-          {/* Spacer */}
-          <Box sx={{ flexGrow: 1 }} />
-
-          {/* Navigation - Visible on tablet and desktop */}
-          {!isMobile && (
-            <Stack
-              direction="row"
-              spacing={isTablet ? 0.5 : 1}
-              sx={{
-                flexWrap: isTablet ? "wrap" : "nowrap",
-                maxWidth: isTablet ? "60%" : "none",
-              }}
-            >
-              {[
-                { to: "/our-work", text: "Our Work" },
-                { to: "/gallery", text: "Gallery" },
-                { to: "/events", text: "Events" },
-                { to: "/membership", text: "Membership" },
-                { to: "/contact", text: "Contact" },
-                { to: "/login", text: "Login" },
-              ].map((item) => (
-                <Button
-                  key={item.to}
-                  component={Link}
-                  to={item.to}
-                  sx={{
-                    color: "white",
-                    fontWeight: "500",
-                    fontSize: isTablet ? "0.75rem" : "0.875rem",
-                    minWidth: "auto",
-                    whiteSpace: "nowrap",
-                    px: isTablet ? 0.75 : 1.5,
-                    py: isTablet ? 0.5 : 1,
-                    "&:hover": {
-                      bgcolor: "rgba(255,255,255,0.1)",
-                    },
-                  }}
-                >
-                  {item.text}
-                </Button>
-              ))}
-            </Stack>
-          )}
-
-          {/* Donate Button - Always visible except mobile */}
-          {!isMobile && (
-            <Button
-              variant="contained"
-              sx={{
-                ml: 2,
-                backgroundColor: "#E67E22",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: isTablet ? "0.75rem" : "0.875rem",
-                "&:hover": {
-                  backgroundColor: "#D35400",
-                  transform: "translateY(-1px)",
-                },
-                minWidth: { xs: "80px", sm: "90px", md: "110px" },
-                px: isTablet ? 1.25 : 2,
-                py: isTablet ? 0.75 : 1,
-                transition: "all 0.2s ease",
-              }}
-              size={isTablet ? "small" : "medium"}
-            >
-              Donate
-            </Button>
-          )}
-
-          {/* Mobile Menu Button */}
-          {isMobile && (
-            <>
-              <Button
-                variant="contained"
+        <Container maxWidth="lg">
+          <Toolbar
+            sx={{
+              px: "0 !important",
+              minHeight: "64px !important",
+              flexWrap: "wrap",
+            }}
+            disableGutters
+          >
+            {/* Logo Section */}
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                component="img"
+                src="/logo.png"
+                alt="Craeswel Foundation Logo"
+                sx={{
+                  height: { xs: 32, sm: 40 },
+                  width: "auto",
+                }}
+              />
+              <Typography
+                component={Link}
+                to="/"
+                variant="h6"
                 sx={{
                   ml: 1,
-                  backgroundColor: "#E67E22",
-                  color: "white",
                   fontWeight: "bold",
-                  fontSize: "0.75rem",
-                  minWidth: "80px",
-                  "&:hover": { backgroundColor: "#D35400" },
+                  fontSize: { xs: "1rem", sm: "1.1rem", md: "1.25rem" },
+                  textDecoration: "none",
+                  color: "white",
                 }}
-                size="small"
               >
-                Donate
-              </Button>
-              <IconButton sx={{ ml: 1, color: "white" }} aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-            </>
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+                CRAESWEL
+              </Typography>
+            </Box>
+
+            {/* Spacer */}
+            <Box sx={{ flexGrow: 1 }} />
+
+            {/* Desktop Navigation */}
+            {!isTabletOrBelow && (
+              <Stack direction="row" spacing={1}>
+                {navItems.map((item) => (
+                  <Button
+                    key={item.to}
+                    component={Link}
+                    to={item.to}
+                    sx={{
+                      color: "white",
+                      fontWeight: "500",
+                      fontSize: "0.875rem",
+                      "&:hover": {
+                        bgcolor: "rgba(255,255,255,0.15)",
+                        borderRadius: 1,
+                      },
+                    }}
+                  >
+                    {item.text}
+                  </Button>
+                ))}
+                <Button
+                  variant="contained"
+                  sx={{
+                    ml: 2,
+                    backgroundColor: "#E67E22",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "0.875rem",
+                    "&:hover": {
+                      backgroundColor: "#D35400",
+                      transform: "translateY(-1px)",
+                    },
+                    transition: "all 0.2s ease",
+                  }}
+                  onClick={() => navigate("/donate")}
+                >
+                  Donate
+                </Button>
+              </Stack>
+            )}
+
+            {/* Mobile Navigation */}
+            {isTabletOrBelow && (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#E67E22",
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "0.75rem",
+                    minWidth: "70px",
+                    "&:hover": { backgroundColor: "#D35400" },
+                  }}
+                  size="small"
+                  onClick={() => navigate("/donate")}
+                >
+                  Donate
+                </Button>
+                <IconButton
+                  sx={{ color: "white" }}
+                  onClick={() => setDrawerOpen(true)}
+                  aria-label="menu"
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          sx: {
+            width: 280,
+            backgroundColor: "#1A365D",
+            color: "white",
+          },
+        }}
+      >
+        {/* Drawer Header */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            px: 2,
+            py: 1.5,
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
+            Menu
+          </Typography>
+          <IconButton
+            onClick={() => setDrawerOpen(false)}
+            sx={{ color: "white" }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        {/* Drawer Links */}
+        <List sx={{ mt: 1 }}>
+          {navItems.map((item) => (
+            <ListItem
+              key={item.to}
+              component={Link}
+              to={item.to}
+              onClick={() => setDrawerOpen(false)}
+              sx={{
+                px: 2,
+                py: 1.2,
+                borderRadius: 1,
+                "&:hover": {
+                  bgcolor: "rgba(230,126,34,0.10)", // subtle orange hover
+                },
+              }}
+            >
+              <ListItemText
+                primary={item.text}
+                primaryTypographyProps={{
+                  fontWeight: 600,
+                  fontSize: "1rem",
+                  color: "#fff", // brand orange for menu items
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 };
 

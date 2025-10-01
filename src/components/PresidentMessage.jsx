@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Typography, Card, CardContent, Avatar } from "@mui/material";
 import { motion } from "framer-motion";
 
@@ -30,7 +29,7 @@ const PresidentMessage = () => {
             fontSize: { xs: "1.6rem", sm: "2rem", md: "2.2rem" },
           }}
         >
-          President’s Message
+          Founders’ Message
         </Typography>
       </motion.div>
 
@@ -45,7 +44,6 @@ const PresidentMessage = () => {
           sx={{
             width: "100%",
             borderRadius: 4,
-
             boxShadow: 6,
             background: "linear-gradient(135deg, #ffffff, #f3f4f6)",
             p: { xs: 2, sm: 3, md: 4 },
@@ -62,9 +60,10 @@ const PresidentMessage = () => {
                 mb: 3,
               }}
             >
+              {/* First Founder with photo */}
               <Avatar
-                src="https://via.placeholder.com/150"
-                alt="President"
+                src="/image.png"
+                alt="Founder"
                 sx={{
                   width: { xs: 100, sm: 120, md: 140 },
                   height: { xs: 100, sm: 120, md: 140 },
@@ -81,13 +80,32 @@ const PresidentMessage = () => {
                     fontSize: { xs: "1rem", sm: "1.2rem", md: "1.3rem" },
                   }}
                 >
-                  John Doe
+                  Mr. Abdul Rasheed
                 </Typography>
                 <Typography
                   variant="body2"
                   sx={{ color: "#4A5568", fontSize: "0.95rem" }}
                 >
-                  President & Founder
+                  Founder
+                </Typography>
+
+                {/* Second Founder without photo */}
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                    color: "#2D3748",
+                    fontSize: { xs: "1rem", sm: "1.2rem", md: "1.3rem" },
+                    mt: 2,
+                  }}
+                >
+                  Ms. Shazia Nazir
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: "#4A5568", fontSize: "0.95rem" }}
+                >
+                  Co-Founder
                 </Typography>
               </Box>
             </Box>
@@ -102,12 +120,13 @@ const PresidentMessage = () => {
                 textAlign: "justify",
               }}
             >
-              It is with great pride and gratitude that I welcome you to our
-              community. Every step we take is guided by the vision of creating
-              a better future for all. Together, we can make meaningful
-              contributions, inspire positive change, and build a legacy of
-              compassion and innovation. Thank you for being a part of this
-              journey.
+              At Craeswel Foundation, our journey is driven by the belief that
+              every child deserves education, every woman deserves opportunity,
+              and every animal deserves compassion. For over three decades, we
+              have witnessed how knowledge and kindness can transform lives and
+              uplift entire communities. Together, with your support, we are
+              building a future where dignity, hope, and opportunity are within
+              everyone’s reach.
             </Typography>
           </CardContent>
         </Card>

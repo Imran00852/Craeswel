@@ -1,57 +1,37 @@
-import React from "react";
 import {
   Box,
-  Typography,
-  Stack,
   Card,
   CardContent,
+  CircularProgress,
+  Stack,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { motion } from "framer-motion";
 import { Carousel } from "react-responsive-carousel";
-import { motion } from "framer-motion"; // ✅ import
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import {
+  useAllEventsQuery,
+  useGetMembersQuery,
+  useAllTeamMembersQuery, // ✅ import management API
+} from "../redux/api/api";
 
 // ------------------- Latest Activities -------------------
 const LatestActivity = () => {
   const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const { data, isLoading } = useAllEventsQuery();
 
-  const activities = [
-    {
-      title: "Feeding Stray Dogs",
-      description:
-        "We distributed food to 50+ stray dogs in the city. Volunteers spent the day ensuring no dog went hungry.",
-      images: [
-        "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=800&auto=format",
-        "https://images.unsplash.com/photo-1601758064226-0c3f67aa9e7b?w=800&auto=format",
-      ],
-    },
-    {
-      title: "School Supplies Drive",
-      description: "Provided books and stationery to underprivileged kids.",
-      images: [
-        "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?w=800&auto=format",
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format",
-      ],
-    },
-    {
-      title: "Medical Camp",
-      description: "Organized free health checkups for children.",
-      images: [
-        "https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=800&auto=format",
-        "https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&auto=format",
-      ],
-    },
-    {
-      title: "Tree Plantation",
-      description: "Planted 200 trees in rural areas.",
-      images: [
-        "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&auto=format",
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&auto=format",
-      ],
-    },
-  ];
+  if (isLoading) {
+    return (
+      <Stack alignItems="center" justifyContent="center" sx={{ mt: 5 }}>
+        <CircularProgress />
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Loading latest activities...
+        </Typography>
+      </Stack>
+    );
+  }
 
   return (
     <Box sx={{ bgcolor: "#f0f4f8", p: 3, borderRadius: 2, mb: 4 }}>
@@ -66,105 +46,101 @@ const LatestActivity = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Latest Activities
+        Latest Events
       </Typography>
 
-      {/* Scrollable list of big cards */}
-      <Stack
-        spacing={3}
+      <Box
         sx={{
-          maxHeight: "90vh",
+          maxWidth: "900px",
+          mx: "auto",
+          maxHeight: "80vh",
           overflowY: "auto",
-          WebkitOverflowScrolling: "touch",
           pr: 1,
+          "&::-webkit-scrollbar": { width: "6px" },
+          "&::-webkit-scrollbar-track": {
+            background: "#f1f1f1",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#888",
+            borderRadius: "10px",
+          },
+          "&::-webkit-scrollbar-thumb:hover": { background: "#555" },
         }}
       >
-        {activities.map((a, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-          >
-            <Card
-              sx={{
-                borderRadius: 3,
-                overflow: "hidden",
-                boxShadow: 3,
-                border: "1px solid #1A365D",
-                bgcolor: "#fff",
-                minHeight: 500,
-                display: "flex",
-                flexDirection: "column",
-              }}
+        <Stack spacing={3}>
+          {data?.events?.map((event, i) => (
+            <motion.div
+              key={event._id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              {/* Header */}
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                sx={{ p: 1, bgcolor: "#f9fafb" }}
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/616/616408.png"
-                  alt="logo"
-                  style={{ width: 30, height: 30 }}
-                />
-                <Typography variant="caption" color="text.secondary">
-                  {new Date().toLocaleDateString()}
-                </Typography>
-              </Stack>
-
-              {/* Carousel */}
-              <Box
+              <Card
                 sx={{
-                  flex: 1,
-                  width: "100%",
-                  minHeight: 300,
-                  maxHeight: 300,
-                  borderRadius: 2,
+                  borderRadius: 3,
                   overflow: "hidden",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                  border: "1px solid #e0e0e0",
+                  bgcolor: "#fff",
                 }}
               >
-                <Carousel
-                  autoPlay
-                  infiniteLoop
-                  interval={4000}
-                  showThumbs={false}
-                  showStatus={false}
-                  showIndicators={false}
-                  swipeable={!isSmall}
-                  emulateTouch={!isSmall}
-                >
-                  {a.images.map((imgSrc, idx) => (
-                    <img
-                      key={idx}
-                      src={imgSrc}
-                      alt={`${a.title}-${idx}`}
-                      style={{
-                        width: "100%",
-                        height: "300px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ))}
-                </Carousel>
-              </Box>
+                {event.attachment?.length > 0 && (
+                  <Box sx={{ width: "100%", height: 400, overflow: "hidden" }}>
+                    <Carousel
+                      autoPlay
+                      infiniteLoop
+                      interval={5000}
+                      showThumbs={false}
+                      showStatus={false}
+                      showIndicators={event.attachment.length > 1}
+                      swipeable
+                      emulateTouch
+                    >
+                      {event.attachment.map((att, idx) => (
+                        <img
+                          key={idx}
+                          src={att.url}
+                          alt={`${event.title}-${idx}`}
+                          style={{
+                            width: "100%",
+                            height: "400px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ))}
+                    </Carousel>
+                  </Box>
+                )}
 
-              {/* Content */}
-              <Box sx={{ px: 2, py: 1 }}>
-                <Typography fontWeight="bold" gutterBottom>
-                  {a.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {a.description}
-                </Typography>
-              </Box>
-            </Card>
-          </motion.div>
-        ))}
-      </Stack>
+                <CardContent>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    sx={{ mb: 1 }}
+                  >
+                    <Typography variant="h6" fontWeight="bold">
+                      {event.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {new Date(event.createdAt).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </Typography>
+                  </Stack>
+
+                  <Typography variant="body1" color="text.secondary">
+                    {event.description}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </Stack>
+      </Box>
     </Box>
   );
 };
@@ -174,43 +150,15 @@ const TeamSection = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const volunteers = [
-    {
-      name: "Alex Johnson",
-      role: "Volunteer",
-      avatar: "https://i.pravatar.cc/300?img=1",
-    },
-    {
-      name: "Sarah Miller",
-      role: "Volunteer",
-      avatar: "https://i.pravatar.cc/300?img=5",
-    },
-    {
-      name: "Raj Patel",
-      role: "Volunteer",
-      avatar: "https://i.pravatar.cc/300?img=11",
-    },
-  ];
+  // ✅ Volunteers
+  const { data: volunteers = [], isLoading: loadingVolunteers } =
+    useGetMembersQuery();
 
-  const management = [
-    {
-      name: "Emily Carter",
-      role: "Coordinator",
-      avatar: "https://i.pravatar.cc/300?img=15",
-    },
-    {
-      name: "Michael Brown",
-      role: "Manager",
-      avatar: "https://i.pravatar.cc/300?img=18",
-    },
-    {
-      name: "Sophia Lee",
-      role: "Treasurer",
-      avatar: "https://i.pravatar.cc/300?img=22",
-    },
-  ];
+  // ✅ Management (Admin Team)
+  const { data: teamData = [], isLoading: loadingManagement } =
+    useAllTeamMembersQuery();
 
-  const renderCarousel = (title, members, delay) => (
+  const renderCarousel = (title, members, delay, isVolunteer = false) => (
     <motion.div
       initial={{ opacity: 0, x: delay === 0 ? -50 : 50 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -226,33 +174,76 @@ const TeamSection = () => {
       >
         {title}
       </Typography>
+
       <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: "hidden" }}>
-        <Carousel
-          autoPlay
-          infiniteLoop
-          interval={4000}
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={false}
-          swipeable={!isSmall}
-          emulateTouch={!isSmall}
-        >
-          {members.map((m, i) => (
-            <Box key={i} sx={{ textAlign: "center" }}>
-              <img
-                src={m.avatar}
-                alt={m.name}
-                style={{ width: "100%", height: "300px", objectFit: "cover" }}
-              />
-              <CardContent>
-                <Typography fontWeight="bold">{m.name}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {m.role}
-                </Typography>
-              </CardContent>
-            </Box>
-          ))}
-        </Carousel>
+        {(isVolunteer ? loadingVolunteers : loadingManagement) ? (
+          <Box sx={{ p: 3, textAlign: "center" }}>
+            <CircularProgress />
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              Loading {isVolunteer ? "volunteers" : "management"}...
+            </Typography>
+          </Box>
+        ) : (
+          <Carousel
+            autoPlay
+            infiniteLoop
+            interval={4000}
+            showThumbs={false}
+            showStatus={false}
+            showIndicators={false}
+            showArrows={false}
+            swipeable={!isSmall}
+            emulateTouch={!isSmall}
+          >
+            {(isVolunteer ? members?.members : members?.teamMembers)?.map(
+              (m, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    textAlign: "center",
+                    p: 2,
+                    bgcolor: "#fafafa",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      height: { xs: 250, sm: 350, md: 400 },
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      overflow: "hidden",
+                      borderRadius: 2,
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                      mb: 2,
+                      bgcolor: "#f5f5f5",
+                    }}
+                  >
+                    <img
+                      src={isVolunteer ? m.photo : m.photo?.url}
+                      alt={m.fullName || m.name}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                      }}
+                      onError={(e) => (e.target.src = "/fallback-user.png")}
+                    />
+                  </Box>
+
+                  <CardContent sx={{ p: 1 }}>
+                    <Typography fontWeight="bold" variant="subtitle1">
+                      {m.fullName || m.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {isVolunteer ? "Volunteer" : m.role}
+                    </Typography>
+                  </CardContent>
+                </Box>
+              )
+            )}
+          </Carousel>
+        )}
       </Card>
     </motion.div>
   );
@@ -278,8 +269,8 @@ const TeamSection = () => {
         spacing={2}
         justifyContent="center"
       >
-        {renderCarousel("Volunteers", volunteers, 0)}
-        {renderCarousel("Management", management, 0.2)}
+        {renderCarousel("Volunteers", volunteers, 0, true)}
+        {renderCarousel("Management", teamData, 0.2, false)}
       </Stack>
     </Box>
   );

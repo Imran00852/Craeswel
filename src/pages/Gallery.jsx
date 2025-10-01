@@ -1,19 +1,29 @@
-// GalleryPage.js
-import React from "react";
-import { Box, Typography, Grid, Card, CardMedia } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  CircularProgress,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { motion } from "framer-motion";
-
-const photos = [
-  "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=800",
-  "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?w=800",
-  "https://images.unsplash.com/photo-1601758125946-3f43d5c9a9af?w=800",
-  "https://images.unsplash.com/photo-1523413651479-597eb2da0ad1?w=800",
-  "https://images.unsplash.com/photo-1601758123927-196b69b2a97a?w=800",
-  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
-  "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800",
-];
+import { useAllGalleryPhotosQuery } from "../redux/api/api";
 
 const Gallery = () => {
+  const { data, isLoading } = useAllGalleryPhotosQuery();
+
+  if (isLoading) {
+    return (
+      <Stack alignItems="center" justifyContent="center" sx={{ mt: 5 }}>
+        <CircularProgress />
+        <Typography variant="body1" sx={{ mt: 2 }}>
+          Loading photos...
+        </Typography>
+      </Stack>
+    );
+  }
+
   return (
     <Box sx={{ bgcolor: "#f9fafb", p: 4, minHeight: "100vh" }}>
       <Typography
@@ -31,23 +41,31 @@ const Gallery = () => {
       </Typography>
 
       <Grid container spacing={2}>
-        {photos.map((src, i) => (
-          <Grid item xs={12} sm={6} md={3} key={i}>
+        {data?.photos?.map((photo, i) => (
+          <Grid item xs={12} sm={6} md={3} key={photo._id}>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.4 }}
             >
-              <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: "hidden" }}>
+              <Card
+                sx={{
+                  borderRadius: 3,
+                  boxShadow: 3,
+                  overflow: "hidden",
+                  cursor: "pointer",
+                }}
+                onClick={() => window.open(photo.url, "_blank")}
+              >
                 <CardMedia
                   component="img"
-                  image={src}
+                  image={photo.url}
                   alt={`Gallery-${i}`}
                   sx={{
                     width: "100%",
                     objectFit: "cover",
-                    aspectRatio: { xs: "1 / 1", sm: "auto" },
+                    aspectRatio: "1 / 1",
                     height: { sm: 200, md: 250 },
                   }}
                 />

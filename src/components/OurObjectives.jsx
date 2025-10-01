@@ -4,14 +4,24 @@ import { motion } from "framer-motion";
 
 const objectives = [
   {
-    title: "Training & Education",
+    title: "Education Access",
     image:
-      "https://images.unsplash.com/photo-1581091012184-5c1a9fcbbe38?w=800&auto=format", // replace with your image
+      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format", // children learning
   },
   {
-    title: "Helping Stray Dogs",
+    title: "Skill & Empowerment",
     image:
-      "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=800&auto=format", // replace with your image
+      "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&auto=format", // women/youth empowerment
+  },
+  {
+    title: "Compassion & Development",
+    image:
+      "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?w=800&auto=format", // rural/animal welfare
+  },
+  {
+    title: "Holistic Growth",
+    image:
+      "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=800&auto=format", // community growth
   },
 ];
 
@@ -68,7 +78,7 @@ const OurObjectives = () => {
                 position: "relative",
                 borderRadius: 3,
                 overflow: "hidden",
-                aspectRatio: "1 / 1", // 🔥 makes it square
+                aspectRatio: "1 / 1", // square layout
                 boxShadow: 4,
               }}
             >
@@ -96,19 +106,20 @@ const OurObjectives = () => {
                   sx={{
                     position: "absolute",
                     inset: 0,
-                    bgcolor: "rgba(0,0,0,0.4)",
+                    bgcolor: "rgba(0,0,0,0.45)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    p: 2,
                   }}
                 >
                   <Typography
-                    variant="h5"
+                    variant="h6"
                     sx={{
                       color: "#fff",
                       fontWeight: "bold",
                       textAlign: "center",
-                      px: 2,
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.3rem" },
                     }}
                   >
                     {obj.title}

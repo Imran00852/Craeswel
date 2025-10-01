@@ -13,7 +13,7 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 
 const testimonials = [
   {
-    name: "Sophia Patel",
+    name: "Sophia",
     role: "Volunteer",
     message:
       "Joining this NGO was one of the best decisions of my life. The community is warm, passionate, and truly dedicated to helping stray animals.",
