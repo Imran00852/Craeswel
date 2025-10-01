@@ -33,6 +33,12 @@ const DonateNow = () => {
   const handlePayment = async (e) => {
     e.preventDefault();
 
+    const donationAmount = Number(amount);
+    if (isNaN(donationAmount) || donationAmount < 10) {
+      toast.error("Donation amount must be at least ₹10");
+      return;
+    }
+
     try {
       // Create Order
       const { data: orderRes } = await createOrder({
