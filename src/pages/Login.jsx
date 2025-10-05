@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { adminExists, adminNotExists } from "../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { set } from "mongoose";
 
 const Login = () => {
   const [email, setEmail] = useState();
