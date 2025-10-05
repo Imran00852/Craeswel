@@ -7,10 +7,13 @@ import { useDispatch } from "react-redux";
 import { adminExists, adminNotExists } from "../redux/reducers/auth";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { set } from "mongoose";
 
 const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +21,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `${server}/api/v1/admin/login`,
         { email, password },
@@ -25,12 +29,14 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      toast.success(data.msg);
-      dispatch(adminExists(data.admin));
+      toast.success(data?.msg);
+      dispatch(adminExists(data?.admin));
       navigate("/admin");
+      setLoading(false);
     } catch (err) {
-      toast.error(err.response.data.msg || "Login failed");
+      toast.error(err.response?.data?.msg || "Login failed");
       dispatch(adminNotExists());
+      setLoading(false);
     }
   };
 
@@ -113,6 +119,7 @@ const Login = () => {
               },
             }}
             fullWidth
+            disabled={loading}
           >
             Login
           </Button>
