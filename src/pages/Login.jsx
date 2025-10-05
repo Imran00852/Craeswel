@@ -121,7 +121,7 @@ const Login = () => {
             fullWidth
             disabled={loading}
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </Button>
         </form>
       </Paper>
